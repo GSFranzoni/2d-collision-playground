@@ -6,9 +6,9 @@ export class World {
   private readonly particles: Particle[] = [];
 
   constructor(
-    readonly width: number,
-    readonly height: number,
-    readonly gravity = new Vector2(0, 9.81),
+    private width: number,
+    private height: number,
+    private gravity = new Vector2(0, 9.81),
   ) {}
 
   addParticle(particle: Particle) {
@@ -38,5 +38,21 @@ export class World {
 
   getParticles() {
     return this.particles;
+  }
+
+  getWidth(): number {
+    return this.width;
+  }
+
+  getHeight(): number {
+    return this.height;
+  }
+
+  getGravity(): Vector2 {
+    return this.gravity;
+  }
+
+  setGravity(gravity: Vector2): void {
+    this.gravity = gravity;
   }
 }

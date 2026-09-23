@@ -1,9 +1,16 @@
 import { useRef } from "react";
 
+import type { Particle } from "@/core/particle";
 import { World } from "@/core/world";
 import { useAnimationFrame } from "@/hooks/use-animation-frame";
 
 const PIXELS_PER_METER = 100;
+
+function randomColor(): string {
+  const hue = Math.floor(Math.random() * 360);
+
+  return `hsl(${hue} 70% 60%)`;
+}
 
 type Props = {
   world: World;
@@ -12,9 +19,11 @@ type Props = {
 export function Canvas({ world }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const width = world.width * PIXELS_PER_METER;
+  const colors = useRef(new Map<Particle, string>());
 
-  const height = world.height * PIXELS_PER_METER;
+  const width = world.getWidth() * PIXELS_PER_METER;
+
+  const height = world.getHeight() * PIXELS_PER_METER;
 
   useAnimationFrame((dt) => {
     world.update(dt);
@@ -31,6 +40,9 @@ export function Canvas({ world }: Props) {
 
     for (const particle of world.getParticles()) {
       const position = particle.getPosition();
+      const color = colors.current.get(particle) ?? randomColor();
+
+      colors.current.set(particle, color);
 
       context.beginPath();
 
@@ -39,6 +51,8 @@ export function Canvas({ world }: Props) {
       const radius = particle.getRadius() * PIXELS_PER_METER;
 
       context.arc(x, y, radius, 0, Math.PI * 2);
+
+      context.fillStyle = color;
       context.fill();
     }
   });

@@ -37,6 +37,10 @@ export class Particle {
     return this.mass;
   }
 
+  getInverseMass() {
+    return 1 / this.getMass();
+  }
+
   getPosition() {
     return this.position;
   }

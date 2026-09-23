@@ -14,8 +14,34 @@ export class Collision {
    * @see https://www.vobarian.com/collisions/2dcollisions2.pdf
    */
   static resolve(a: Particle, b: Particle): void {
+    const positionDifference = b.getPosition().subtract(a.getPosition());
+
+    const distance = positionDifference.magnitude();
+
+    if (distance === 0) {
+      return;
+    }
+
     // Collision normal: n = (pB - pA) / |pB - pA|
-    const collisionNormal = b.getPosition().subtract(a.getPosition()).normalize();
+    const collisionNormal = positionDifference.scale(1 / distance);
+
+    // penetration = rA + rB - |pB - pA|
+    const penetration = a.getRadius() + b.getRadius() - distance;
+
+    if (penetration > 0) {
+      const totalInverseMass = a.getInverseMass() + b.getInverseMass();
+
+      const correctionA = collisionNormal.scale(
+        penetration * (a.getInverseMass() / totalInverseMass),
+      );
+
+      const correctionB = collisionNormal.scale(
+        penetration * (b.getInverseMass() / totalInverseMass),
+      );
+
+      a.setPosition(a.getPosition().subtract(correctionA));
+      b.setPosition(b.getPosition().add(correctionB));
+    }
 
     // Relative velocity: vr = vB - vA
     const relativeVelocity = b.getVelocity().subtract(a.getVelocity());
