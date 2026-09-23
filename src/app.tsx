@@ -43,9 +43,7 @@ function addRandomParticle(world: World): void {
 
 export function App() {
   const [world] = useState(() => {
-    const gravity0 = new Vector2(0, 9.81);
-
-    const world = new World(8, 8, gravity0);
+    const world = new World(8, 8, new Vector2(0, 9.81));
 
     for (let i = 0; i < 50; i++) {
       addRandomParticle(world);
@@ -53,13 +51,13 @@ export function App() {
 
     return world;
   });
-  const [gravity, setGravity] = useState(() => world.getGravity().y);
 
-  function updateGravity(metersPerSecondSquared: number): void {
-    const currentGravity = world.getGravity();
+  const [gravity, setGravity] = useState(() => world.getGravity());
 
-    world.setGravity(new Vector2(currentGravity.x, metersPerSecondSquared));
-    setGravity(metersPerSecondSquared);
+  function updateGravity(mps: number): void {
+    const newGravity = new Vector2(gravity.x, mps);
+    world.setGravity(newGravity);
+    setGravity(newGravity);
   }
 
   return (
@@ -81,7 +79,7 @@ export function App() {
               popoverTarget="gravity-control"
               style={{ anchorName: "--gravity-trigger" }}
             >
-              ↓ {gravity.toFixed(2)} m/s²
+              ↓ {gravity.y.toFixed(2)} m/s²
             </button>
             <div
               id="gravity-control"
@@ -97,7 +95,7 @@ export function App() {
                   Gravity
                 </label>
                 <output className="text-caption text-primary font-medium" htmlFor="gravity">
-                  {gravity.toFixed(2)} m/s²
+                  {gravity.y.toFixed(2)} m/s²
                 </output>
               </div>
               <input
@@ -107,7 +105,7 @@ export function App() {
                 min="0"
                 max="20"
                 step="0.01"
-                value={gravity}
+                value={gravity.y}
                 onChange={(event) => updateGravity(event.currentTarget.valueAsNumber)}
               />
               <div className="text-label text-muted-foreground mt-2 flex justify-between">

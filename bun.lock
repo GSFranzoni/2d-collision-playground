@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "react-vite-tailwind-template",
+      "name": "2d-collision-playground",
       "dependencies": {
         "@tailwindcss/vite": "^4.3.3",
         "react": "^19.2.8",
