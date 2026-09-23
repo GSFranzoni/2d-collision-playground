@@ -51,6 +51,10 @@ For an overlapping pair, the collision solver first separates the particles acco
 - [ ] Add spatial partitioning to scale collision detection beyond the current all-pairs check.
 - [ ] Add trails, velocity vectors, and collision diagnostics.
 
+## References
+
+- [2D Elastic Collisions](https://www.vobarian.com/collisions/2dcollisions2.pdf) — derivation used by the particle-pair collision resolver.
+
 ## Support
 
 If you enjoyed this small physics experiment, you can support its creator here:
