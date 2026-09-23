@@ -19,4 +19,18 @@ export class Vector2 {
   scale(scalar: number) {
     return new Vector2(this.x * scalar, this.y * scalar);
   }
+
+  dot(other: Vector2): number {
+    return this.x * other.x + this.y * other.y;
+  }
+
+  magnitude(): number {
+    return Math.hypot(this.x, this.y);
+  }
+
+  normalize() {
+    const magnitude = this.magnitude();
+
+    return this.scale(1 / magnitude);
+  }
 }

@@ -7,12 +7,14 @@ const PIXELS_PER_METER = 100;
 
 type Props = {
   world: World;
-  width?: number;
-  height?: number;
 };
 
-export function Canvas({ world, width = 800, height = 600 }: Props) {
+export function Canvas({ world }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  const width = world.width * PIXELS_PER_METER;
+
+  const height = world.height * PIXELS_PER_METER;
 
   useAnimationFrame((dt) => {
     world.update(dt);
@@ -41,12 +43,5 @@ export function Canvas({ world, width = 800, height = 600 }: Props) {
     }
   });
 
-  return (
-    <canvas
-      ref={canvasRef}
-      width={width}
-      height={height}
-      className="rounded-2xl border border-gray-400"
-    />
-  );
+  return <canvas ref={canvasRef} width={width} height={height} />;
 }

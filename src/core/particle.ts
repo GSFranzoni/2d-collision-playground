@@ -25,6 +25,14 @@ export class Particle {
     this.force = new Vector2(0, 0);
   }
 
+  setVelocity(velocity: Vector2) {
+    this.velocity = velocity;
+  }
+
+  setPosition(position: Vector2) {
+    this.position = position;
+  }
+
   getMass() {
     return this.mass;
   }
